@@ -1,0 +1,294 @@
+.diagnostic-container {
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    max-height: 100%;
+    overflow-y: auto;
+}
+
+.agent-status {
+    font-size: 0.7rem;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+    background: var(--panel-dark);
+}
+
+.agent-status.online {
+    color: var(--success-green);
+}
+
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin: 0 0 var(--space-md) 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.log-count {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    font-weight: 400;
+}
+
+/* Memory Leak Section */
+.memory-leak-section {
+    padding: var(--space-md);
+    background: var(--panel-glass-light);
+    border-radius: var(--radius-md);
+}
+
+.leak-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.leak-item {
+    padding: var(--space-sm);
+    background: var(--panel-dark);
+    border-radius: var(--radius-sm);
+    border-left: 3px solid var(--success-green);
+}
+
+.leak-item.increasing {
+    border-left-color: var(--warning-amber);
+}
+
+.leak-item.critical {
+    border-left-color: var(--critical-red);
+    animation: alert-pulse 2s ease-in-out infinite;
+}
+
+.leak-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-sm);
+}
+
+.leak-name {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-primary);
+}
+
+.leak-probability {
+    font-size: 0.65rem;
+    padding: 2px 6px;
+    border-radius: var(--radius-sm);
+    background: var(--success-green-dim);
+    color: var(--success-green);
+}
+
+.leak-probability.increasing {
+    background: var(--warning-amber-dim);
+    color: var(--warning-amber);
+}
+
+.leak-probability.critical {
+    background: var(--critical-red-dim);
+    color: var(--critical-red);
+}
+
+.leak-details {
+    display: flex;
+    gap: var(--space-lg);
+    margin-bottom: var(--space-sm);
+}
+
+.leak-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.leak-stat .stat-label {
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+}
+
+.leak-stat .stat-value {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-primary);
+}
+
+.trend-stable {
+    color: var(--success-green) !important;
+}
+
+.trend-increasing {
+    color: var(--warning-amber) !important;
+}
+
+.trend-critical {
+    color: var(--critical-red) !important;
+}
+
+.memory-bar {
+    height: 4px;
+    background: var(--panel-medium);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.memory-fill {
+    height: 100%;
+    background: var(--success-green);
+    border-radius: 2px;
+    transition: width 0.3s ease-out;
+}
+
+.memory-fill.increasing {
+    background: var(--warning-amber);
+}
+
+.memory-fill.critical {
+    background: var(--critical-red);
+}
+
+/* RAG Section */
+.rag-section {
+    padding: var(--space-md);
+    background: linear-gradient(135deg, rgba(157, 78, 221, 0.1) 0%, rgba(100, 50, 180, 0.05) 100%);
+    border: 1px solid rgba(157, 78, 221, 0.2);
+    border-radius: var(--radius-md);
+}
+
+.rag-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-md);
+}
+
+.rag-indicator {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.rag-icon {
+    font-size: 1.2rem;
+}
+
+.rag-label {
+    font-size: 0.8rem;
+    color: var(--text-primary);
+}
+
+.rag-state {
+    font-size: 0.7rem;
+    padding: var(--space-xs) var(--space-sm);
+    background: var(--panel-dark);
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+}
+
+.rag-state.active {
+    color: var(--neon-purple);
+}
+
+.rag-suggestions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.suggestion {
+    display: flex;
+    gap: var(--space-sm);
+    padding: var(--space-sm);
+    background: var(--panel-dark);
+    border-radius: var(--radius-sm);
+}
+
+.suggestion-icon {
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.suggestion-text {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+.suggestion-text strong {
+    color: var(--text-primary);
+}
+
+/* Log Section */
+.log-section {
+    flex: 1;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+}
+
+.log-list {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: var(--space-sm);
+    background: var(--void-black);
+    border-radius: var(--radius-md);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+}
+
+.log-entry {
+    display: flex;
+    gap: var(--space-sm);
+    padding: var(--space-xs);
+    border-radius: var(--radius-sm);
+    background: transparent;
+}
+
+.log-entry:hover {
+    background: var(--panel-dark);
+}
+
+.log-time {
+    color: var(--text-dim);
+    flex-shrink: 0;
+}
+
+.log-icon {
+    flex-shrink: 0;
+}
+
+.log-source {
+    color: var(--electric-cyan);
+    flex-shrink: 0;
+}
+
+.log-message {
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.log-entry.warning .log-message {
+    color: var(--warning-amber);
+}
+
+.log-entry.error .log-message {
+    color: var(--critical-red);
+}
+
+.log-entry.success .log-message {
+    color: var(--success-green);
+}

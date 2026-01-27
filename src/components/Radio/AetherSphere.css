@@ -1,0 +1,207 @@
+.aether-sphere-container {
+    display: flex;
+    flex-direction: column;
+    height: 500px;
+    padding: var(--space-md);
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a0f 100%);
+}
+
+.aether-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+}
+
+.aether-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.aether-title h2 {
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    color: var(--electric-cyan);
+}
+
+.gravity-badge {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.65rem;
+    background: var(--panel-dark);
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    color: var(--warning-amber);
+    border: 1px solid rgba(255, 149, 0, 0.3);
+}
+
+.aether-viewport {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 1000px;
+    overflow: visible;
+}
+
+.world-plate {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background-image:
+        radial-gradient(circle, rgba(0, 245, 255, 0.1) 0%, transparent 70%),
+        repeating-linear-gradient(rgba(0, 245, 255, 0.05) 0 1px, transparent 1px 40px),
+        repeating-linear-gradient(90deg, rgba(0, 245, 255, 0.05) 0 1px, transparent 1px 40px);
+    border: 2px solid rgba(0, 245, 255, 0.2);
+    border-radius: 50%;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+}
+
+.station-anchor {
+    position: absolute;
+    cursor: pointer;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform-style: preserve-3d;
+}
+
+.station-node {
+    background: var(--panel-glass);
+    border: 1px solid var(--electric-cyan);
+    border-radius: var(--radius-md);
+    padding: var(--space-xs) var(--space-sm);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 15px rgba(0, 245, 255, 0.2);
+    min-width: 120px;
+    transition: all 0.3s;
+}
+
+.station-anchor.active .station-node {
+    border-color: var(--warning-amber);
+    box-shadow: 0 0 25px rgba(255, 149, 0, 0.4);
+    transform: scale(1.1);
+}
+
+.node-icon {
+    color: var(--electric-cyan);
+}
+
+.station-anchor.active .node-icon {
+    color: var(--warning-amber);
+}
+
+.node-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.node-name {
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.node-loc {
+    font-size: 0.55rem;
+    color: var(--text-secondary);
+}
+
+.node-pulse {
+    position: absolute;
+    inset: -5px;
+    border: 1px solid var(--warning-amber);
+    border-radius: var(--radius-md);
+    animation: pulse-glow 2s infinite;
+}
+
+.anchor-line {
+    width: 1px;
+    background: linear-gradient(to top, var(--electric-cyan), transparent);
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform-origin: top center;
+}
+
+.user-pointer {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+}
+
+.pointer-core {
+    width: 100%;
+    height: 100%;
+    background: var(--critical-red);
+    border-radius: 50%;
+    box-shadow: 0 0 15px var(--critical-red);
+}
+
+.pointer-rings .ring {
+    position: absolute;
+    inset: -20px;
+    border: 1px solid var(--critical-red);
+    border-radius: 50%;
+    opacity: 0.3;
+    animation: pulse-ring 2s infinite;
+}
+
+.pointer-rings .ring:last-child {
+    animation-delay: 1s;
+}
+
+@keyframes pulse-ring {
+    0% {
+        transform: scale(0.5);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+.aether-controls {
+    padding: var(--space-sm);
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: var(--radius-md);
+    z-index: 10;
+}
+
+.g-slider-control {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.g-slider-control label {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    white-space: nowrap;
+}
+
+.g-slider-control input {
+    flex: 1;
+}
+
+.g-value {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--warning-amber);
+    min-width: 60px;
+}

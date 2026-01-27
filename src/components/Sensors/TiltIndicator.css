@@ -1,0 +1,214 @@
+.sensor-panel {
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+.tilt-indicator-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-lg);
+}
+
+.tilt-visualizer {
+    position: relative;
+    width: 180px;
+    height: 180px;
+}
+
+.tilt-grid {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.grid-line {
+    position: absolute;
+    background: rgba(0, 245, 255, 0.15);
+}
+
+.grid-line.horizontal {
+    width: 100%;
+    height: 1px;
+    top: 50%;
+}
+
+.grid-line.vertical {
+    width: 1px;
+    height: 100%;
+    left: 50%;
+}
+
+.grid-circle {
+    position: absolute;
+    border: 1px solid rgba(0, 245, 255, 0.15);
+    border-radius: 50%;
+}
+
+.grid-circle.outer {
+    width: 100%;
+    height: 100%;
+}
+
+.grid-circle.middle {
+    width: 66%;
+    height: 66%;
+}
+
+.grid-circle.inner {
+    width: 33%;
+    height: 33%;
+}
+
+.tilt-platform {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80px;
+    height: 80px;
+    margin-left: -40px;
+    margin-top: -40px;
+    transition: transform 0.1s ease-out;
+    transform-style: preserve-3d;
+}
+
+.platform-surface {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0, 245, 255, 0.3) 0%, rgba(0, 200, 255, 0.1) 100%);
+    border: 2px solid var(--electric-cyan);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 20px rgba(0, 245, 255, 0.2);
+}
+
+.tilt-platform.warning .platform-surface {
+    background: linear-gradient(135deg, rgba(255, 149, 0, 0.3) 0%, rgba(200, 100, 0, 0.1) 100%);
+    border-color: var(--warning-amber);
+    box-shadow: 0 5px 20px rgba(255, 149, 0, 0.2);
+}
+
+.tilt-platform.critical .platform-surface {
+    background: linear-gradient(135deg, rgba(255, 51, 85, 0.3) 0%, rgba(200, 0, 50, 0.1) 100%);
+    border-color: var(--critical-red);
+    box-shadow: 0 5px 20px rgba(255, 51, 85, 0.3);
+    animation: pulse 1s ease-in-out infinite;
+}
+
+.platform-center {
+    width: 16px;
+    height: 16px;
+    background: var(--electric-cyan);
+    border-radius: 50%;
+    box-shadow: 0 0 15px var(--electric-cyan);
+}
+
+.tilt-platform.warning .platform-center {
+    background: var(--warning-amber);
+    box-shadow: 0 0 15px var(--warning-amber);
+}
+
+.tilt-platform.critical .platform-center {
+    background: var(--critical-red);
+    box-shadow: 0 0 15px var(--critical-red);
+}
+
+.tilt-dot {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    margin-left: -6px;
+    margin-top: -6px;
+    background: var(--electric-cyan);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--electric-cyan), 0 0 20px var(--electric-cyan);
+    transition: left 0.1s ease-out, top 0.1s ease-out;
+    z-index: 10;
+}
+
+.tilt-dot.warning {
+    background: var(--warning-amber);
+    box-shadow: 0 0 10px var(--warning-amber), 0 0 20px var(--warning-amber);
+}
+
+.tilt-dot.critical {
+    background: var(--critical-red);
+    box-shadow: 0 0 10px var(--critical-red), 0 0 20px var(--critical-red);
+    animation: pulse-glow 0.5s ease-in-out infinite;
+}
+
+.tilt-readings {
+    display: flex;
+    gap: var(--space-lg);
+}
+
+.reading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.reading-label {
+    font-family: var(--font-display);
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+}
+
+.reading-value {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--electric-cyan);
+}
+
+.reading-value.warning {
+    color: var(--warning-amber);
+}
+
+.reading-value.critical {
+    color: var(--critical-red);
+}
+
+.reading.magnitude .reading-value {
+    font-size: 1.2rem;
+}
+
+.sensor-stats {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+    background: var(--panel-glass-light);
+    border-radius: var(--radius-md);
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+}
+
+.stat-label {
+    color: var(--text-secondary);
+}
+
+.stat-value {
+    font-family: var(--font-mono);
+    color: var(--text-primary);
+}
+
+.stat-value.critical {
+    color: var(--critical-red);
+}
+
+.stat-value.warning {
+    color: var(--warning-amber);
+}
