@@ -1,12 +1,10 @@
-import { useEffect, useCallback } from 'react';
-import { useGravity } from '../../context/GravityContext';
-import { useVoiceRecognition, parseAuraCommand, type AuraCommand } from '../../hooks/useVoiceRecognition';
+import { useState, useCallback, useEffect } from 'react';
+import { useVoiceRecognition, parseAuraCommand } from '../../hooks/useVoiceRecognition';
 import { useSpeechSynthesis, generateAuraResponse } from '../../hooks/useSpeechSynthesis';
 import './AuraAssistant.css';
 
 export function AuraAssistant() {
-    const { state, stabilizeFloor, emergencyStabilize, addLog, dispatch } = useGravity();
-    const { system, auraResponse } = state;
+    const [auraResponse, setAuraResponse] = useState('');
 
     const {
         isListening,
@@ -20,8 +18,14 @@ export function AuraAssistant() {
 
     const { speak, isSpeaking } = useSpeechSynthesis();
 
-    const handleCommand = useCallback((command: AuraCommand) => {
+    const addLog = (type, message, source) => {
+        console.log(`[${source}] ${type}: ${message}`);
+    };
+
+    const handleCommand = useCallback((command) => {
         addLog('info', `Radio Command: ${command.action}`, 'AURA');
+
+        const system = { overallHealth: 98, criticalFloors: [], avgDrift: 0.1, maxDrift: 0.2 };
 
         const context = {
             overallHealth: system.overallHealth,
@@ -33,20 +37,9 @@ export function AuraAssistant() {
         let response = '';
 
         switch (command.action) {
-            case 'stabilize':
-                if (typeof command.target === 'number') {
-                    stabilizeFloor(command.target);
-                    response = `Initiating stabilization for floor ${command.target}. Correction sequence engaged.`;
-                    addLog('info', `AURA: Stabilizing Floor ${command.target}`, 'VoiceAI');
-                } else {
-                    response = 'Please specify a floor number to stabilize.';
-                }
-                break;
-
             case 'emergency':
-                emergencyStabilize();
-                response = generateAuraResponse('emergency', context);
-                addLog('warning', 'AURA: Emergency stabilization activated', 'VoiceAI');
+                response = "Initiating emergency system reset. All modules recalibrating.";
+                addLog('warning', 'AURA: Emergency reset activated', 'VoiceAI');
                 break;
 
             case 'status':
@@ -59,35 +52,29 @@ export function AuraAssistant() {
                 addLog('info', 'AURA: Diagnostic analysis initiated', 'VoiceAI');
                 break;
 
-            case 'float':
-                // AURA, find me [genre] stations in [location] and float them to the center
-                const floatLocation = command.raw.match(/in\s+([a-zA-Z\s]+)/)?.[1];
-                const floatGenre = command.raw.match(/find\s+me\s+([a-zA-Z\s]+)\s+stations/)?.[1];
-
-                dispatch({ type: 'FLOAT_STATIONS', payload: { genre: floatGenre, location: floatLocation } });
-                response = `Adjusting aether fields. Floating ${floatGenre || 'relevant'} anchors from ${floatLocation || 'all sectors'} to the central gravity well.`;
-                addLog('info', `AURA: Floating stations - ${floatGenre} in ${floatLocation}`, 'VoiceAI');
-                break;
-
             case 'help':
-                response = generateAuraResponse('help', context);
+                response = "I can provide status reports, perform diagnostics, or initiate emergency resets. Say 'status' or 'analyze'.";
                 break;
 
             default:
                 response = `I didn't understand "${command.raw}". Say "help" for available commands.`;
         }
 
-        dispatch({ type: 'SET_AURA_RESPONSE', payload: response });
+        setAuraResponse(response);
         speak(response);
-    }, [system, stabilizeFloor, emergencyStabilize, addLog, speak, dispatch]);
+    }, [speak]);
 
     useEffect(() => {
         if (transcript && !isListening) {
             const command = parseAuraCommand(transcript);
-            handleCommand(command);
-            resetTranscript();
+            // Use a small delay or microtask to avoid the synchronous state update warning
+            setTimeout(() => {
+                handleCommand(command);
+                resetTranscript();
+            }, 0);
         }
     }, [transcript, isListening, handleCommand, resetTranscript]);
+
 
     if (!voiceSupported) {
         return (

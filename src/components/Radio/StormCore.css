@@ -1,4 +1,4 @@
-.aether-sphere-container {
+.storm-core-container {
     display: flex;
     flex-direction: column;
     height: 500px;
@@ -8,20 +8,20 @@
     background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a0f 100%);
 }
 
-.aether-header {
+.storm-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     z-index: 10;
 }
 
-.aether-title {
+.storm-title {
     display: flex;
     align-items: center;
     gap: var(--space-sm);
 }
 
-.aether-title h2 {
+.storm-title h2 {
     font-family: var(--font-display);
     font-size: 0.9rem;
     letter-spacing: 1px;
@@ -40,7 +40,7 @@
     border: 1px solid rgba(255, 149, 0, 0.3);
 }
 
-.aether-viewport {
+.storm-viewport {
     flex: 1;
     position: relative;
     display: flex;
@@ -175,7 +175,7 @@
     }
 }
 
-.aether-controls {
+.storm-controls {
     padding: var(--space-sm);
     background: rgba(0, 0, 0, 0.4);
     border-radius: var(--radius-md);

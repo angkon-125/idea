@@ -1,18 +1,20 @@
-import { useGravity } from '../../context/GravityContext';
+import { useState } from 'react';
 import './RadioTuner.css';
 
 export function RadioTuner() {
-    const { state, dispatch, addLog } = useGravity();
-    const { system } = state;
+    const [system, setSystem] = useState({
+        signalStrength: 85,
+        activeChannel: 'COMMS',
+        currentFrequency: 440.0
+    });
 
-    const handleFrequencyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleFrequencyChange = (e) => {
         const freq = parseFloat(e.target.value);
-        dispatch({ type: 'SET_FREQUENCY', payload: freq });
+        setSystem(prev => ({ ...prev, currentFrequency: freq }));
     };
 
-    const handleChannelChange = (channel: typeof system.activeChannel) => {
-        dispatch({ type: 'SET_CHANNEL', payload: channel });
-        addLog('info', `Switched to channel: ${channel}`, 'RadioSystem');
+    const handleChannelChange = (channel) => {
+        setSystem(prev => ({ ...prev, activeChannel: channel }));
     };
 
     return (
@@ -37,7 +39,7 @@ export function RadioTuner() {
                 </div>
 
                 <div className="screen-footer">
-                    <span className="mode-label">ANTI-GRAV COMM-SYNC</span>
+                    <span className="mode-label">THUNDERSTORM COMM-SYNC</span>
                     <span className="encryption-status">ENC: AES-256-NEO</span>
                 </div>
             </div>
@@ -61,7 +63,7 @@ export function RadioTuner() {
                 </div>
 
                 <div className="channel-buttons">
-                    {(['SENSOR_FEED', 'COMMS', 'EMERGENCY', 'DIAGNOSTIC'] as const).map((ch) => (
+                    {['SENSOR_FEED', 'COMMS', 'EMERGENCY', 'DIAGNOSTIC'].map((ch) => (
                         <button
                             key={ch}
                             className={`channel-btn ${system.activeChannel === ch ? 'active' : ''}`}

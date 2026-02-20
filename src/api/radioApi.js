@@ -15,7 +15,7 @@ export const fetchGlobalStations = async (query = '', tag = '', limit = 20, offs
         const data = await response.json();
 
         // Map to a consistent format if needed, though Radio Browser has good fields
-        return data.map((station: any) => ({
+        return data.map((station) => ({
             stationid: station.stationuuid,
             name: station.name,
             country: station.countrycode,

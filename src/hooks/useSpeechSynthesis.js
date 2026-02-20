@@ -1,17 +1,9 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 
-interface UseSpeechSynthesisReturn {
-    speak: (text: string) => void;
-    cancel: () => void;
-    isSpeaking: boolean;
-    isSupported: boolean;
-    voices: SpeechSynthesisVoice[];
-}
-
-export function useSpeechSynthesis(): UseSpeechSynthesisReturn {
+export function useSpeechSynthesis() {
     const [isSpeaking, setIsSpeaking] = useState(false);
-    const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
-    const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+    const [voices, setVoices] = useState([]);
+    const utteranceRef = useRef(null);
 
     const isSupported = typeof window !== 'undefined' && 'speechSynthesis' in window;
 
@@ -31,15 +23,13 @@ export function useSpeechSynthesis(): UseSpeechSynthesisReturn {
         };
     }, [isSupported]);
 
-    const speak = useCallback((text: string) => {
+    const speak = useCallback((text) => {
         if (!isSupported) return;
 
-        // Cancel any ongoing speech
         window.speechSynthesis.cancel();
 
         const utterance = new SpeechSynthesisUtterance(text);
 
-        // Find a suitable voice (prefer female voices for AURA)
         const preferredVoice = voices.find(v =>
             v.name.includes('Samantha') ||
             v.name.includes('Google UK English Female') ||
@@ -80,35 +70,21 @@ export function useSpeechSynthesis(): UseSpeechSynthesisReturn {
 
 // AURA Response Generator
 export function generateAuraResponse(
-    action: string,
-    context: {
-        overallHealth: number;
-        criticalFloors: number[];
-        avgDrift: number;
-        maxDrift: number;
-    }
-): string {
+    action,
+    context
+) {
     switch (action) {
         case 'status':
-            if (context.overallHealth > 80) {
-                return `System health is at ${context.overallHealth} percent. All gravitational fields are operating within normal parameters.`;
-            } else if (context.overallHealth > 50) {
-                return `Warning. System health at ${context.overallHealth} percent. ${context.criticalFloors.length} floors showing critical drift levels. Average drift is ${context.avgDrift.toFixed(1)} degrees.`;
-            } else {
-                return `Alert! System health critical at ${context.overallHealth} percent. Maximum drift detected at ${context.maxDrift.toFixed(1)} degrees. Immediate stabilization recommended.`;
-            }
-
-        case 'stabilize':
-            return `Initiating stabilization sequence. Anti-gravity field recalibration in progress.`;
+            return `System health is at ${context.overallHealth} percent. All modules are operating within normal parameters.`;
 
         case 'emergency':
-            return `Emergency protocol activated. Engaging all stabilizers. Please hold steady.`;
+            return `Emergency protocol activated. Engaging all safety resets. Please standby.`;
 
         case 'analyze':
-            return `Running diagnostic scan. Analyzing hook memory allocation and garbage collection patterns. Memory leak probability assessment in progress.`;
+            return `Running diagnostic scan. Analyzing core data streams and network stability. Diagnostic complete.`;
 
         case 'help':
-            return `Available commands: Say "status report" for system overview. "Stabilize floor" followed by a number to correct drift. "Emergency stabilize" for all floors. "Analyze" to run diagnostics.`;
+            return `Available commands: Say "status report" for system overview. "Analyze" to run diagnostics. "Emergency reset" for system reset.`;
 
         default:
             return `Command not recognized. Say "help" for available commands.`;

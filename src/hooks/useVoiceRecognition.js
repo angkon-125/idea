@@ -1,23 +1,12 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 
-interface UseVoiceRecognitionReturn {
-    isListening: boolean;
-    isSupported: boolean;
-    transcript: string;
-    interimTranscript: string;
-    error: string | null;
-    startListening: () => void;
-    stopListening: () => void;
-    resetTranscript: () => void;
-}
-
-export function useVoiceRecognition(): UseVoiceRecognitionReturn {
+export function useVoiceRecognition() {
     const [isListening, setIsListening] = useState(false);
     const [transcript, setTranscript] = useState('');
     const [interimTranscript, setInterimTranscript] = useState('');
-    const [error, setError] = useState<string | null>(null);
+    const [error, setError] = useState(null);
 
-    const recognitionRef = useRef<SpeechRecognition | null>(null);
+    const recognitionRef = useRef(null);
     const isSupported = typeof window !== 'undefined' &&
         ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window);
 
@@ -77,7 +66,7 @@ export function useVoiceRecognition(): UseVoiceRecognitionReturn {
             setInterimTranscript('');
             try {
                 recognitionRef.current.start();
-            } catch (e) {
+            } catch {
                 // Already started
             }
         }
@@ -107,13 +96,7 @@ export function useVoiceRecognition(): UseVoiceRecognitionReturn {
 }
 
 // Command parser for AURA
-export interface AuraCommand {
-    action: 'stabilize' | 'status' | 'emergency' | 'analyze' | 'help' | 'float' | 'unknown';
-    target?: string | number;
-    raw: string;
-}
-
-export function parseAuraCommand(transcript: string): AuraCommand {
+export function parseAuraCommand(transcript) {
     const lower = transcript.toLowerCase().trim();
 
     // Stabilize commands

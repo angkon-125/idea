@@ -1,16 +1,13 @@
-import { useGravity } from '../../context/GravityContext';
 import { Header } from './Header';
-
 import { AuraAssistant } from '../Voice/AuraAssistant';
 import { SpectrumAnalyzer } from '../Audio/SpectrumAnalyzer';
 import { DiagnosticPanel } from '../Agent/DiagnosticPanel';
 import { RadioTuner } from '../Radio/RadioTuner';
-import { AetherSphere } from '../Radio/AetherSphere';
+import { StormCore } from '../Radio/StormCore';
 import './Dashboard.css';
 
 export function Dashboard() {
-    const { state } = useGravity();
-    const { system } = state;
+    const system = { internetStatus: 'stable' };
 
     return (
         <div className={`dashboard ${system.internetStatus !== 'stable' ? 'animate-flicker' : ''}`}>
@@ -24,7 +21,7 @@ export function Dashboard() {
                 </aside>
 
                 <section className="dashboard-center">
-                    <AetherSphere />
+                    <StormCore />
                     <SpectrumAnalyzer />
                 </section>
 
@@ -35,7 +32,7 @@ export function Dashboard() {
 
             <footer className="dashboard-footer">
                 <div className="footer-left">
-                    <span className="footer-brand">ThunderStrike™ Anti-Gravity Radio System</span>
+                    <span className="footer-brand">Thunderstorm™ Global Radio System</span>
                     <span className="footer-version">v3.0.0-crypto-radio</span>
                 </div>
                 <div className="footer-center">

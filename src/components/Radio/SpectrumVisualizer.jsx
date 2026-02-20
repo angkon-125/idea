@@ -1,14 +1,8 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
-interface SpectrumVisualizerProps {
-    isActive: boolean;
-    frequency: number;
-    signalStrength: number;
-}
-
-export function SpectrumVisualizer({ isActive, frequency, signalStrength }: SpectrumVisualizerProps) {
-    const [bars, setBars] = useState<number[]>(new Array(24).fill(10));
+export function SpectrumVisualizer({ isActive, frequency, signalStrength }) {
+    const [bars, setBars] = useState(new Array(24).fill(5));
 
     useEffect(() => {
         if (!isActive) {
@@ -27,7 +21,7 @@ export function SpectrumVisualizer({ isActive, frequency, signalStrength }: Spec
 
                 return Math.max(5, Math.min(80, base + jitter + freqMod));
             }));
-        }, 100);
+        }, 80);
 
         return () => clearInterval(interval);
     }, [isActive, frequency, signalStrength]);

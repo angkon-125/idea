@@ -1,9 +1,12 @@
-import { useGravity } from '../../context/GravityContext';
 import './Header.css';
 
 export function Header() {
-    const { state, emergencyStabilize } = useGravity();
-    const { system } = state;
+    const system = {
+        overallHealth: 98,
+        internetStatus: 'stable',
+        maxDrift: 0.2,
+        fieldDistortion: 1.2
+    };
 
     const getHealthColor = () => {
         if (system.overallHealth > 70) return 'var(--success-green)';
@@ -16,6 +19,7 @@ export function Header() {
             case 'stable': return '◉';
             case 'flickering': return '◎';
             case 'offline': return '○';
+            default: return '◉';
         }
     };
 
@@ -38,7 +42,7 @@ export function Header() {
                     </svg>
                 </div>
                 <div className="brand-text">
-                    <h1 className="brand-name">ThunderStrike</h1>
+                    <h1 className="brand-name">Thunderstorm</h1>
                     <span className="brand-subtitle">Neo-Dhaka Residential Spire</span>
                 </div>
             </div>
@@ -61,16 +65,16 @@ export function Header() {
                 </div>
 
                 <div className="status-item">
-                    <span className="status-label">Max Drift</span>
-                    <span className={`status-value ${system.maxDrift > 10 ? 'critical' : system.maxDrift > 5 ? 'warning' : ''}`}>
+                    <span className="status-label">Drift</span>
+                    <span className="status-value">
                         {system.maxDrift.toFixed(1)}°
                     </span>
                 </div>
 
                 <div className="status-item">
-                    <span className="status-label">Field Distortion</span>
-                    <span className={`status-value ${system.fieldDistortion > 15 ? 'critical' : system.fieldDistortion > 10 ? 'warning' : ''}`}>
-                        {system.fieldDistortion.toFixed(1)}%
+                    <span className="status-label">Signal Clarity</span>
+                    <span className="status-value">
+                        {(100 - system.fieldDistortion).toFixed(1)}%
                     </span>
                 </div>
 
@@ -83,12 +87,9 @@ export function Header() {
             </div>
 
             <div className="header-actions">
-                <button
-                    className="emergency-btn"
-                    onClick={emergencyStabilize}
-                >
+                <button className="emergency-btn">
                     <span className="btn-icon">⚡</span>
-                    <span className="btn-text">EMERGENCY STABILIZE</span>
+                    <span className="btn-text">EMERGENCY RESET</span>
                 </button>
             </div>
         </header>

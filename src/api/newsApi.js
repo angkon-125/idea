@@ -1,13 +1,4 @@
-export interface NewsEvent {
-    id: string;
-    timestamp: number;
-    headline: string;
-    category: 'CRITICAL' | 'WARNING' | 'INFO' | 'SYNC';
-    content: string;
-    location: string;
-}
-
-const mockNews: NewsEvent[] = [
+const mockNews = [
     {
         id: 'n1',
         timestamp: Date.now(),
@@ -21,7 +12,7 @@ const mockNews: NewsEvent[] = [
         timestamp: Date.now() - 300000,
         headline: 'SYNTH-WAVE STREAM UPLOADED',
         category: 'INFO',
-        content: 'New Aether-Net relay established for deep-space listeners.',
+        content: 'New Storm-Net relay established for deep-space listeners.',
         location: 'Global'
     },
     {
@@ -42,7 +33,7 @@ const mockNews: NewsEvent[] = [
     }
 ];
 
-export const fetchGlobalNews = async (): Promise<NewsEvent[]> => {
+export const fetchGlobalNews = async () => {
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 800));
     return mockNews;

@@ -1,18 +1,9 @@
-import { useGravity } from '../../context/GravityContext';
 import './TiltIndicator.css';
 
-interface TiltIndicatorProps {
-    tiltX: number;
-    tiltY: number;
-    maxTilt?: number;
-}
-
-export function TiltIndicator({ tiltX, tiltY, maxTilt = 20 }: TiltIndicatorProps) {
-    // Clamp values
+export function TiltIndicator({ tiltX, tiltY, maxTilt = 20 }) {
     const clampedX = Math.max(-maxTilt, Math.min(maxTilt, tiltX));
     const clampedY = Math.max(-maxTilt, Math.min(maxTilt, tiltY));
 
-    // Calculate severity
     const magnitude = Math.sqrt(clampedX ** 2 + clampedY ** 2);
     const severity = magnitude > 12 ? 'critical' : magnitude > 6 ? 'warning' : 'stable';
 
@@ -20,7 +11,6 @@ export function TiltIndicator({ tiltX, tiltY, maxTilt = 20 }: TiltIndicatorProps
         <div className="tilt-indicator-container">
             <div className="tilt-visualizer">
                 <div className="tilt-grid">
-                    {/* Grid lines */}
                     <div className="grid-line horizontal" />
                     <div className="grid-line vertical" />
                     <div className="grid-circle outer" />
@@ -28,7 +18,6 @@ export function TiltIndicator({ tiltX, tiltY, maxTilt = 20 }: TiltIndicatorProps
                     <div className="grid-circle inner" />
                 </div>
 
-                {/* Tilt platform */}
                 <div
                     className={`tilt-platform ${severity}`}
                     style={{
@@ -40,7 +29,6 @@ export function TiltIndicator({ tiltX, tiltY, maxTilt = 20 }: TiltIndicatorProps
                     </div>
                 </div>
 
-                {/* Indicator dot showing actual position */}
                 <div
                     className={`tilt-dot ${severity}`}
                     style={{
@@ -69,29 +57,25 @@ export function TiltIndicator({ tiltX, tiltY, maxTilt = 20 }: TiltIndicatorProps
 }
 
 export function SensorPanel() {
-    const { state } = useGravity();
-    const { floors, selectedFloor, system } = state;
-
-    // Get the selected floor or use overall average
-    const displayFloor = selectedFloor
-        ? floors.find(f => f.floor === selectedFloor)
-        : null;
-
-    const avgTiltX = floors.reduce((sum, f) => sum + f.tiltX, 0) / floors.length;
-    const avgTiltY = floors.reduce((sum, f) => sum + f.tiltY, 0) / floors.length;
+    const system = {
+        activeSensors: 142,
+        criticalFloors: [],
+        warningFloors: [],
+        fieldFrequency: 440.0
+    };
 
     return (
         <div className="sensor-panel glass-panel">
             <div className="panel-header">
                 <h2 className="panel-title">
                     <span className="title-icon">📡</span>
-                    {selectedFloor ? `Floor ${selectedFloor} Sensor` : 'System Tilt Overview'}
+                    System Static Precision
                 </h2>
             </div>
 
             <TiltIndicator
-                tiltX={displayFloor?.tiltX ?? avgTiltX}
-                tiltY={displayFloor?.tiltY ?? avgTiltY}
+                tiltX={0.1}
+                tiltY={-0.2}
             />
 
             <div className="sensor-stats">
@@ -100,15 +84,15 @@ export function SensorPanel() {
                     <span className="stat-value">{system.activeSensors}</span>
                 </div>
                 <div className="stat-row">
-                    <span className="stat-label">Critical Floors</span>
-                    <span className="stat-value critical">{system.criticalFloors.length}</span>
+                    <span className="stat-label">Stability</span>
+                    <span className="stat-value">NORMAL</span>
                 </div>
                 <div className="stat-row">
-                    <span className="stat-label">Warning Floors</span>
-                    <span className="stat-value warning">{system.warningFloors.length}</span>
+                    <span className="stat-label">Signal Bias</span>
+                    <span className="stat-value">CALIBRATED</span>
                 </div>
                 <div className="stat-row">
-                    <span className="stat-label">Field Frequency</span>
+                    <span className="stat-label">Main Freq</span>
                     <span className="stat-value">{system.fieldFrequency.toFixed(1)} Hz</span>
                 </div>
             </div>

@@ -1,12 +1,10 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAudioAnalyzer } from '../../hooks/useAudioAnalyzer';
-import { useGravity } from '../../context/GravityContext';
 import './SpectrumAnalyzer.css';
 
 export function SpectrumAnalyzer() {
-    const { state, dispatch, addLog } = useGravity();
-    const { system } = state;
-    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const canvasRef = useRef(null);
+    const [system] = useState({ currentFrequency: 440.0 });
 
     const {
         frequencyData,
@@ -18,26 +16,11 @@ export function SpectrumAnalyzer() {
         isSupported,
     } = useAudioAnalyzer();
 
-    // Update audio spatialization based on selected station distance
+    // Default distance
     useEffect(() => {
         if (!isActive) return;
-
-        if (state.activeStationId) {
-            const station = state.stations.find(s => s.id === state.activeStationId);
-            if (station) {
-                // Calculate distance in 3D space
-                const dist = Math.sqrt(
-                    Math.pow(station.x - state.userPosition.x, 2) +
-                    Math.pow(station.y - state.userPosition.y, 2) +
-                    Math.pow(station.z - state.userPosition.z, 2)
-                );
-                setDistance(dist);
-            }
-        } else {
-            // Default maximum distance/noise when no station selected
-            setDistance(500);
-        }
-    }, [state.activeStationId, state.stations, state.userPosition, isActive, setDistance]);
+        setDistance(100);
+    }, [isActive, setDistance]);
 
     // Draw spectrum visualization
     useEffect(() => {
@@ -51,11 +34,9 @@ export function SpectrumAnalyzer() {
             const width = canvas.width;
             const height = canvas.height;
 
-            // Clear canvas
             ctx.fillStyle = 'rgba(10, 10, 15, 0.3)';
             ctx.fillRect(0, 0, width, height);
 
-            // Draw frequency bars
             const barCount = frequencyData.length;
             const barWidth = width / barCount;
             const barGap = 2;
@@ -66,14 +47,13 @@ export function SpectrumAnalyzer() {
                 const x = i * barWidth;
                 const y = height - barHeight;
 
-                // Color based on frequency and amplitude
-                let hue: number;
+                let hue;
                 if (value > 0.8) {
-                    hue = 0; // Red for high amplitude
+                    hue = 0;
                 } else if (value > 0.5) {
-                    hue = 30; // Orange/yellow
+                    hue = 30;
                 } else {
-                    hue = 180 + (i / barCount) * 60; // Cyan to blue gradient
+                    hue = 180 + (i / barCount) * 60;
                 }
 
                 const gradient = ctx.createLinearGradient(x, height, x, y);
@@ -83,7 +63,6 @@ export function SpectrumAnalyzer() {
                 ctx.fillStyle = gradient;
                 ctx.fillRect(x + barGap / 2, y, barWidth - barGap, barHeight);
 
-                // Glow effect for high values
                 if (value > 0.6) {
                     ctx.shadowColor = `hsl(${hue}, 100%, 50%)`;
                     ctx.shadowBlur = 10;
@@ -92,7 +71,6 @@ export function SpectrumAnalyzer() {
                 }
             }
 
-            // Draw threshold line
             const thresholdY = height * 0.3;
             ctx.strokeStyle = 'rgba(255, 51, 85, 0.5)';
             ctx.lineWidth = 1;
@@ -111,25 +89,13 @@ export function SpectrumAnalyzer() {
         draw();
     }, [frequencyData, isActive]);
 
-    // Handle audio toggle
     const toggleAudio = async () => {
         if (isActive) {
             stopAnalyzer();
-            dispatch({ type: 'UPDATE_SYSTEM', payload: { audioMonitoringActive: false } });
-            addLog('info', 'Field audio monitoring deactivated', 'AudioDiagnostics');
         } else {
             await startAnalyzer();
-            dispatch({ type: 'UPDATE_SYSTEM', payload: { audioMonitoringActive: true } });
-            addLog('info', 'Field audio monitoring activated - Listening to anti-grav field harmonics', 'AudioDiagnostics');
         }
     };
-
-    // Distortion warning
-    useEffect(() => {
-        if (distortionLevel > 20) {
-            addLog('warning', `High field distortion detected: ${distortionLevel.toFixed(1)}%`, 'AudioDiagnostics');
-        }
-    }, [distortionLevel > 20]);
 
     if (!isSupported) {
         return (
@@ -172,16 +138,16 @@ export function SpectrumAnalyzer() {
                     <div className="spectrum-overlay">
                         <button className="activate-btn" onClick={toggleAudio}>
                             <span className="btn-icon">🔊</span>
-                            <span>Activate Field Monitoring</span>
+                            <span>Activate Spectrum Monitoring</span>
                         </button>
-                        <p className="activate-hint">Listen to the anti-gravity field harmonics</p>
+                        <p className="activate-hint">Monitor signal interference and harmonics</p>
                     </div>
                 )}
             </div>
 
             <div className="distortion-meter">
                 <div className="meter-header">
-                    <span className="meter-label">Field Distortion</span>
+                    <span className="meter-label">Signal Jitter</span>
                     <span className={`meter-value ${distortionLevel > 15 ? 'critical' : distortionLevel > 10 ? 'warning' : ''}`}>
                         {distortionLevel.toFixed(1)}%
                     </span>
@@ -211,11 +177,10 @@ export function SpectrumAnalyzer() {
                 </div>
             </div>
 
-
             {distortionLevel > 15 && (
                 <div className="distortion-warning">
                     <span className="warning-icon">⚠️</span>
-                    <span>High distortion detected! Field collapse risk elevated.</span>
+                    <span>High jitter detected in signal!</span>
                 </div>
             )}
         </div>

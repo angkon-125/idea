@@ -1,54 +1,44 @@
 import { useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useGravity } from '../../context/GravityContext';
-import { RadioTower, Globe, Zap } from 'lucide-react';
-import './AetherSphere.css';
+import { RadioTower, Globe } from 'lucide-react';
+import './StormCore.css';
 
-export function AetherSphere() {
-    const { state, dispatch } = useGravity();
-    const { stations, gConstant, activeStationId } = state;
+const MOCK_STATIONS = [
+    { id: '1', name: 'Alpha Sector', location: 'Dhaka', weight: 1.2, x: -100, y: -50, z: 0 },
+    { id: '2', name: 'Beta Sector', location: 'Tokyo', weight: 0.8, x: 100, y: 50, z: 0 },
+    { id: '3', name: 'Gamma Sector', location: 'New York', weight: 1.0, x: 0, y: 150, z: 0 },
+];
 
-    const containerRef = useRef<HTMLDivElement>(null);
+export function StormCore() {
+    const containerRef = useRef(null);
+    const activeStationId = '1';
 
-    const handleStationClick = (id: string) => {
-        dispatch({ type: 'SET_ACTIVE_STATION', payload: id });
-    };
-
-    const getStability = (g: number) => {
-        if (g > 8) return 'Stable Surface';
-        if (g > 4) return 'Sub-Orbital Drift';
-        return 'Zero-G Aether';
+    const handleStationClick = (id) => {
+        console.log("Station clicked:", id);
     };
 
     return (
-        <div className="aether-sphere-container glass-panel" ref={containerRef}>
-            <div className="aether-header">
-                <div className="aether-title">
+        <div className="storm-core-container glass-panel" ref={containerRef}>
+            <div className="storm-header">
+                <div className="storm-title">
                     <Globe className="icon pulse-glow" />
-                    <h2>Global Freq Aether</h2>
-                </div>
-                <div className="gravity-badge">
-                    <Zap className="icon-xs" />
-                    <span>{getStability(gConstant)}</span>
+                    <h2>Storm Global Frequencies</h2>
                 </div>
             </div>
 
-            <div className="aether-viewport">
-                {/* The 3D World Plate */}
+            <div className="storm-viewport">
                 <div
                     className="world-plate"
                     style={{
-                        transform: `perspective(1000px) rotateX(60deg) translateY(${-(9.8 - gConstant) * 20}px)`,
-                        opacity: gConstant / 9.8
+                        transform: `perspective(1000px) rotateX(60deg) translateY(0px)`,
+                        opacity: 1
                     }}
                 />
 
                 <AnimatePresence>
-                    {stations.map((station) => {
+                    {MOCK_STATIONS.map((station) => {
                         const isActive = activeStationId === station.id;
-                        // Calculate float height based on G-constant and station weight
-                        const floatHeight = (9.8 - gConstant) * 30 * (1 / station.weight);
-                        const driftX = (Math.sin(Date.now() / 2000 + parseInt(station.id)) * (9.8 - gConstant) * 5);
+                        const floatHeight = 20;
 
                         return (
                             <motion.div
@@ -59,16 +49,14 @@ export function AetherSphere() {
                                 animate={{
                                     opacity: 1,
                                     scale: 1,
-                                    x: station.x + driftX,
+                                    x: station.x,
                                     y: station.y - floatHeight,
                                     z: station.z,
-                                    rotateY: isActive ? 360 : 0
                                 }}
                                 transition={{
                                     type: 'spring',
                                     stiffness: 50,
                                     damping: 10,
-                                    rotateY: { duration: 2, repeat: isActive ? Infinity : 0, ease: "linear" }
                                 }}
                                 onClick={() => handleStationClick(station.id)}
                             >
@@ -83,12 +71,11 @@ export function AetherSphere() {
                                     {isActive && <div className="node-pulse" />}
                                 </div>
 
-                                {/* Connecting Line to Ground */}
                                 <div
                                     className="anchor-line"
                                     style={{
                                         height: floatHeight + 20,
-                                        opacity: 0.3 * (gConstant / 9.8)
+                                        opacity: 0.3
                                     }}
                                 />
                             </motion.div>
@@ -96,28 +83,12 @@ export function AetherSphere() {
                     })}
                 </AnimatePresence>
 
-                {/* User Central Point */}
                 <div className="user-pointer">
                     <div className="pointer-core" />
                     <div className="pointer-rings">
                         <div className="ring" />
                         <div className="ring" />
                     </div>
-                </div>
-            </div>
-
-            <div className="aether-controls">
-                <div className="g-slider-control">
-                    <label>ANTI-GRAV LEVEL</label>
-                    <input
-                        type="range"
-                        min="0"
-                        max="9.8"
-                        step="0.1"
-                        value={gConstant}
-                        onChange={(e) => dispatch({ type: 'SET_G_CONSTANT', payload: parseFloat(e.target.value) })}
-                    />
-                    <div className="g-value">{gConstant.toFixed(1)} m/s²</div>
                 </div>
             </div>
         </div>

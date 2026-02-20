@@ -1,13 +1,13 @@
 import { useRef, useCallback, useEffect } from 'react';
 
 export const useAudioFilter = () => {
-    const audioContextRef = useRef<AudioContext | null>(null);
-    const filterRef = useRef<BiquadFilterNode | null>(null);
-    const sourceRef = useRef<MediaElementAudioSourceNode | null>(null);
+    const audioContextRef = useRef(null);
+    const filterRef = useRef(null);
+    const sourceRef = useRef(null);
 
-    const initAudio = useCallback((audioElement: HTMLAudioElement) => {
+    const initAudio = useCallback((audioElement) => {
         if (!audioContextRef.current) {
-            audioContextRef.current = new (window.AudioContext || (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext)();
+            audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
         }
 
         if (!sourceRef.current) {
@@ -29,7 +29,7 @@ export const useAudioFilter = () => {
         }
     }, []);
 
-    const updateFilter = useCallback((distance: number) => {
+    const updateFilter = useCallback((distance) => {
         if (filterRef.current && audioContextRef.current) {
             // Atmospheric interference simulation
             // higher distance = higher cut-off frequency

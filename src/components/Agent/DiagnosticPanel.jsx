@@ -1,11 +1,23 @@
-import { useGravity } from '../../context/GravityContext';
+import { useState } from 'react';
 import './DiagnosticPanel.css';
 
-export function DiagnosticPanel() {
-    const { state } = useGravity();
-    const { diagnosticLogs, memoryLeaks } = state;
+const MOCK_LEAKS = [
+    { hookName: 'useStationStream', memoryUsage: 1.2, trend: 'stable', leakProbability: 2 },
+    { hookName: 'useSpectrumAnalyzer', memoryUsage: 4.5, trend: 'increasing', leakProbability: 15 },
+    { hookName: 'useNewsTicker', memoryUsage: 0.8, trend: 'stable', leakProbability: 1 },
+];
 
-    const formatTime = (timestamp: number) => {
+const MOCK_LOGS = [
+    { id: '1', type: 'success', message: 'Main frequency link established', source: 'COMMS', timestamp: Date.now() - 5000 },
+    { id: '2', type: 'info', message: 'Spectrum analyzer recalibrated', source: 'AUDIO', timestamp: Date.now() - 3000 },
+    { id: '3', type: 'warning', message: 'Signal jitter detected in sector 7', source: 'SYS', timestamp: Date.now() - 1000 },
+];
+
+export function DiagnosticPanel() {
+    const [diagnosticLogs] = useState(MOCK_LOGS);
+    const [memoryLeaks] = useState(MOCK_LEAKS);
+
+    const formatTime = (timestamp) => {
         const date = new Date(timestamp);
         return date.toLocaleTimeString('en-US', {
             hour12: false,
@@ -15,7 +27,7 @@ export function DiagnosticPanel() {
         });
     };
 
-    const getLogIcon = (type: string) => {
+    const getLogIcon = (type) => {
         switch (type) {
             case 'info': return 'ℹ️';
             case 'warning': return '⚠️';
@@ -36,7 +48,7 @@ export function DiagnosticPanel() {
             </div>
 
             <div className="memory-leak-section">
-                <h3 className="section-title">Hook Memory Analysis</h3>
+                <h3 className="section-title">Module Memory Analysis</h3>
                 <div className="leak-list">
                     {memoryLeaks.map((leak, index) => (
                         <div key={index} className={`leak-item ${leak.trend}`}>
@@ -62,7 +74,7 @@ export function DiagnosticPanel() {
                             <div className="memory-bar">
                                 <div
                                     className={`memory-fill ${leak.trend}`}
-                                    style={{ width: `${Math.min(100, leak.memoryUsage / 3)}%` }}
+                                    style={{ width: `${Math.min(100, leak.memoryUsage * 10)}%` }}
                                 />
                             </div>
                         </div>
@@ -71,7 +83,7 @@ export function DiagnosticPanel() {
             </div>
 
             <div className="rag-section">
-                <h3 className="section-title">RAG Troubleshooting</h3>
+                <h3 className="section-title">Troubleshooting</h3>
                 <div className="rag-status">
                     <div className="rag-indicator">
                         <span className="rag-icon">🧠</span>
@@ -83,13 +95,13 @@ export function DiagnosticPanel() {
                     <div className="suggestion">
                         <span className="suggestion-icon">💡</span>
                         <span className="suggestion-text">
-                            <strong>useGravityStabilizer:</strong> Consider implementing cleanup in useEffect return. Memory accumulation detected in sensor polling loop.
+                            <strong>System Optimization:</strong> All data buffers cleared. Network latency within acceptable thresholds for this sector.
                         </span>
                     </div>
                     <div className="suggestion">
                         <span className="suggestion-icon">🔧</span>
                         <span className="suggestion-text">
-                            <strong>Recommended:</strong> Add AbortController to async operations. Current implementation lacks proper cancellation handling.
+                            <strong>Scanning:</strong> No anomalies detected in current frequency bands.
                         </span>
                     </div>
                 </div>
