@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, useMotionValue } from 'framer-motion';
-import { Radio as RadioIcon, MapPin, Zap, Wind, Play, Pause, Volume2 } from 'lucide-react';
+import { Radio as RadioIcon, MapPin, Zap, Wind, Play, Pause, Volume2, SkipBack, SkipForward } from 'lucide-react';
 import { fetchGlobalStations } from '../../api/radioApi';
 import { useAudioFilter } from '../../hooks/useAudioFilter';
 import { SpectrumVisualizer } from './SpectrumVisualizer';
@@ -141,6 +141,20 @@ export function RadioDashboard() {
                 .then(() => setIsPlaying(true))
                 .catch(() => setIsPlaying(false));
         }
+    };
+
+    const handleNextStation = () => {
+        if (stations.length === 0) return;
+        const currentIndex = stations.findIndex(s => s.stationid === selectedStation?.stationid);
+        const nextIndex = (currentIndex + 1) % stations.length;
+        handleStationClick(stations[nextIndex]);
+    };
+
+    const handlePrevStation = () => {
+        if (stations.length === 0) return;
+        const currentIndex = stations.findIndex(s => s.stationid === selectedStation?.stationid);
+        const prevIndex = (currentIndex - 1 + stations.length) % stations.length;
+        handleStationClick(stations[prevIndex]);
     };
 
     const genres = ['', 'synthwave', 'metal', 'lofi', 'techno', 'ambient'];
@@ -402,9 +416,37 @@ export function RadioDashboard() {
                             <h2 className="truncate text-base sm:text-xl md:text-3xl font-black text-white leading-none uppercase tracking-tight mb-1.5 sm:mb-3 italic">
                                 {selectedStation?.name || '--- SCANNING ---'}
                             </h2>
-                            <div className="flex items-center justify-start gap-2 sm:gap-4">
-                                <span className="text-[9px] sm:text-[12px] font-mono text-white/40 uppercase tracking-[1px] sm:tracking-[3px] font-bold">
-                                    {selectedStation ? `BR: ${selectedStation.bitrate}KBPS // V: ${Math.round(volume * 100)}%` : 'SYSTEM_IDLE'}
+
+                            <div className="flex items-center justify-start gap-4 mb-4">
+                                <button
+                                    onClick={handlePrevStation}
+                                    className="p-2 hover:bg-[#00f5ff]/20 rounded-full transition-colors group/btn"
+                                    title="PREVIOUS_CHANNEL"
+                                >
+                                    <SkipBack size={20} className="text-[#00f5ff] group-hover/btn:scale-110 transition-transform" />
+                                </button>
+                                <button
+                                    onClick={handleNextStation}
+                                    className="p-2 hover:bg-[#00f5ff]/20 rounded-full transition-colors group/btn"
+                                    title="NEXT_CHANNEL"
+                                >
+                                    <SkipForward size={20} className="text-[#00f5ff] group-hover/btn:scale-110 transition-transform" />
+                                </button>
+                                <span className="text-[9px] sm:text-[12px] font-mono text-white/40 uppercase tracking-[1px] sm:tracking-[3px] font-bold border-l border-white/10 pl-4">
+                                    {selectedStation ? `BR: ${selectedStation.bitrate}KBPS` : 'SYSTEM_IDLE'}
+                                </span>
+                            </div>
+
+                            <div className="flex items-center gap-3 bg-black/40 px-4 py-2 rounded-xl border border-white/10 w-full sm:w-64">
+                                <Volume2 size={16} className="text-[#00f5ff] shrink-0" />
+                                <input
+                                    type="range" min="0" max="1" step="0.01"
+                                    value={volume}
+                                    onChange={(e) => setVolume(parseFloat(e.target.value))}
+                                    className="cyber-slider flex-1"
+                                />
+                                <span className="font-mono text-[10px] text-[#00f5ff] w-8 text-right font-bold">
+                                    {Math.round(volume * 100)}%
                                 </span>
                             </div>
                         </div>
@@ -415,15 +457,6 @@ export function RadioDashboard() {
                             <div className="flex items-center gap-3">
                                 <div className="w-2 h-2 bg-[#00f5ff] rounded-full animate-pulse shadow-[0_0_10px_#00f5ff]" />
                                 <span className="text-[10px] sm:text-[12px] font-mono text-[#00f5ff] uppercase tracking-[2px] sm:tracking-[5px] font-black">Spectral_Field_Analyzer.V2</span>
-                            </div>
-                            <div className="flex items-center gap-2 sm:gap-4 bg-black/40 px-3 py-1.5 sm:px-6 sm:py-2 rounded-xl border border-white/10">
-                                <Volume2 size={16} className="text-[#00f5ff]" />
-                                <input
-                                    type="range" min="0" max="1" step="0.01"
-                                    value={volume}
-                                    onChange={(e) => setVolume(parseFloat(e.target.value))}
-                                    className="w-20 sm:w-32 md:w-48 h-1.5 bg-white/10 rounded-full appearance-none cursor-pointer accent-[#00f5ff] transition-all hover:bg-white/20"
-                                />
                             </div>
                         </div>
                         <div className="bg-black/40 rounded-2xl p-4 border border-white/5">
