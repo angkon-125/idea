@@ -32,8 +32,8 @@ export function RadioDashboard() {
     useEffect(() => {
         const initialParticles = Array.from({ length: 40 }).map((_, i) => ({
             id: i,
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight,
+            x: Math.random() * 100, // Use percentage
+            y: Math.random() * 100, // Use percentage
             size: Math.random() * 2 + 1,
             speed: Math.random() * 2 + 0.5
         }));
@@ -154,11 +154,11 @@ export function RadioDashboard() {
                 {particles.map(p => (
                     <motion.div
                         key={p.id}
-                        initial={{ y: p.y }}
-                        animate={{ y: [p.y, -20] }}
+                        initial={{ y: `${p.y}%` }}
+                        animate={{ y: [`${p.y}%`, `-20%`] }}
                         transition={{ duration: p.speed * 10, repeat: Infinity, ease: "linear" }}
                         className="absolute bg-white rounded-full"
-                        style={{ left: p.x, width: p.size, height: p.size, filter: 'blur(1px)' }}
+                        style={{ left: `${p.x}%`, width: p.size, height: p.size, filter: 'blur(1px)' }}
                     />
                 ))}
             </div>
