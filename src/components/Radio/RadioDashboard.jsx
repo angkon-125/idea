@@ -147,7 +147,7 @@ export function RadioDashboard() {
 
     return (
         <div
-            className="min-h-screen bg-[#050508] text-white p-[var(--spacing-fluid-md)] font-sans relative overflow-hidden crt-screen data-grid-bg"
+            className="min-h-screen bg-[#050508] text-white p-3 sm:p-[var(--spacing-fluid-md)] font-sans relative overflow-hidden crt-screen data-grid-bg"
             onMouseMove={handleMouseMove}
         >
             <div className="absolute inset-0 pointer-events-none opacity-30">
@@ -164,7 +164,7 @@ export function RadioDashboard() {
             </div>
 
             <div className="scanner-line" />
-            <header className="flex flex-col xl:flex-row justify-between items-start xl:items-center mb-[var(--spacing-fluid-md)] border-b border-[#00f5ff]/20 pb-8 relative z-10 gap-[var(--spacing-fluid-sm)] glass-panel-deep p-[var(--spacing-fluid-md)] rounded-xl neon-glow-cyan">
+            <header className="flex flex-col xl:flex-row justify-between items-start xl:items-center mb-[var(--spacing-fluid-md)] border-b border-[#00f5ff]/20 pb-4 sm:pb-8 relative z-10 gap-3 sm:gap-[var(--spacing-fluid-sm)] glass-panel-deep p-3 sm:p-[var(--spacing-fluid-md)] rounded-xl neon-glow-cyan">
                 <div className="flex items-center gap-[var(--spacing-fluid-sm)] w-full xl:w-auto">
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
@@ -193,13 +193,13 @@ export function RadioDashboard() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full xl:w-auto">
-                    <form onSubmit={handleSearch} className="relative w-full sm:w-72 md:w-96 group">
+                    <form onSubmit={handleSearch} className="relative w-full sm:w-64 md:w-80 lg:w-96 group">
                         <input
                             type="text"
                             placeholder="RECALIBRATE FREQUENCY..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full bg-black/60 border border-[#00f5ff]/30 rounded-xl px-6 py-4 text-sm font-mono focus:outline-none focus:border-[#00f5ff] focus:ring-2 focus:ring-[#00f5ff]/20 transition-all placeholder:text-[#00f5ff]/30 text-[#00f5ff] backdrop-blur-xl"
+                            className="w-full bg-black/60 border border-[#00f5ff]/30 rounded-xl px-4 py-3 sm:px-6 sm:py-4 text-xs sm:text-sm font-mono focus:outline-none focus:border-[#00f5ff] focus:ring-2 focus:ring-[#00f5ff]/20 transition-all placeholder:text-[#00f5ff]/30 text-[#00f5ff] backdrop-blur-xl"
                         />
                         <div className="absolute right-4 top-1/2 -translate-y-1/2 group-focus-within:opacity-100 opacity-40 transition-opacity">
                             <Zap size={16} className="text-[#00f5ff] animate-pulse" />
@@ -211,7 +211,7 @@ export function RadioDashboard() {
                             <button
                                 key={genre}
                                 onClick={() => setActiveTag(genre)}
-                                className={`px-5 py-2 rounded-lg border text-[12px] font-mono uppercase tracking-[30%] transition-all duration-300 whitespace-nowrap ${activeTag === genre
+                                className={`px-3 py-1.5 sm:px-5 sm:py-2 rounded-lg border text-[10px] sm:text-[12px] font-mono uppercase tracking-wider sm:tracking-[30%] transition-all duration-300 whitespace-nowrap ${activeTag === genre
                                     ? 'bg-[#00f5ff] border-[#00f5ff] text-black font-black shadow-[0_0_20px_rgba(0,245,255,0.4)]'
                                     : 'bg-white/5 border-transparent text-white/40 hover:bg-white/10 hover:text-white/80'
                                     }`}
@@ -222,17 +222,17 @@ export function RadioDashboard() {
                     </div>
                 </div>
 
-                <div className="w-full mt-6 pt-6 border-t border-white/10 overflow-hidden relative group/ticker box-content">
+                <div className="w-full mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-white/10 overflow-hidden relative group/ticker box-content">
                     <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[#0d0d14] to-transparent z-10 pointer-events-none" />
                     <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#0d0d14] to-transparent z-10 pointer-events-none" />
 
                     <div className="flex items-center gap-8 whitespace-nowrap">
-                        <div className="flex items-center gap-4 bg-[#00f5ff]/10 px-6 py-2.5 rounded-xl border border-[#00f5ff]/30 shrink-0 backdrop-blur-xl z-20 shadow-[0_0_25px_rgba(0,245,255,0.15)] group-hover/ticker:border-[#00f5ff]/60 transition-colors">
+                        <div className="flex items-center gap-2 sm:gap-4 bg-[#00f5ff]/10 px-3 py-2 sm:px-6 sm:py-2.5 rounded-xl border border-[#00f5ff]/30 shrink-0 backdrop-blur-xl z-20 shadow-[0_0_25px_rgba(0,245,255,0.15)] group-hover/ticker:border-[#00f5ff]/60 transition-colors">
                             <div className="relative">
                                 <div className="w-3 h-3 rounded-full bg-red-500 animate-ping opacity-75" />
                                 <div className="absolute inset-0 w-3 h-3 rounded-full bg-red-600" />
                             </div>
-                            <span className="text-[13px] font-mono text-[#00f5ff] font-black uppercase tracking-[4px] font-display">Thunderstorm Pulse // LIVE</span>
+                            <span className="text-[10px] sm:text-[13px] font-mono text-[#00f5ff] font-black uppercase tracking-[2px] sm:tracking-[4px] font-display">Thunderstorm Pulse // LIVE</span>
                         </div>
 
                         <div className="ticker-wrapper relative flex-1 overflow-hidden">
@@ -276,8 +276,8 @@ export function RadioDashboard() {
                 </div>
             </header>
 
-            <main className="relative z-10 pb-48 w-full max-w-[2400px] mx-auto">
-                <div className="grid grid-cols-[repeat(auto-fit,minmax(clamp(280px,30vw,400px),1fr))] gap-6 mb-16">
+            <main className="relative z-10 pb-36 sm:pb-40 md:pb-48 w-full max-w-[2400px] mx-auto">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-4 sm:gap-6 mb-10 sm:mb-16">
                     {loading && !loadingMore ? (
                         Array.from({ length: 8 }).map((_, i) => (
                             <div key={i} className="h-64 rounded-3xl bg-white/5 animate-pulse border border-white/10" />
@@ -294,11 +294,11 @@ export function RadioDashboard() {
                                 }}
                                 transition={{ delay: index * 0.03, type: 'spring', stiffness: 100 }}
                                 onClick={() => handleStationClick(station)}
-                                className={`group relative p-8 rounded-3xl glass-panel-deep border-2 transition-all duration-500 cursor-pointer holographic-card ${selectedStation?.stationid === station.stationid ? 'border-[#00f5ff] bg-[#00f5ff]/10 shadow-[0_0_40px_rgba(0,245,255,0.2)]' : 'border-white/5 hover:border-white/20'}`}
+                                className={`group relative p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl glass-panel-deep border-2 transition-all duration-500 cursor-pointer holographic-card ${selectedStation?.stationid === station.stationid ? 'border-[#00f5ff] bg-[#00f5ff]/10 shadow-[0_0_40px_rgba(0,245,255,0.2)]' : 'border-white/5 hover:border-white/20'}`}
                             >
-                                <div className="flex justify-between items-start mb-8">
-                                    <div className={`p-4 rounded-2xl transition-all duration-500 ${selectedStation?.stationid === station.stationid ? 'bg-[#00f5ff] text-black shadow-[0_0_20px_#00f5ff]' : 'bg-black/60 text-[#00f5ff]/40 group-hover:text-[#00f5ff]'}`}>
-                                        <RadioIcon size={28} className={selectedStation?.stationid === station.stationid ? "" : "group-hover:animate-pulse"} />
+                                <div className="flex justify-between items-start mb-4 sm:mb-8">
+                                    <div className={`p-2.5 sm:p-4 rounded-xl sm:rounded-2xl transition-all duration-500 ${selectedStation?.stationid === station.stationid ? 'bg-[#00f5ff] text-black shadow-[0_0_20px_#00f5ff]' : 'bg-black/60 text-[#00f5ff]/40 group-hover:text-[#00f5ff]'}`}>
+                                        <RadioIcon size={22} className={`sm:!w-7 sm:!h-7 ${selectedStation?.stationid === station.stationid ? "" : "group-hover:animate-pulse"}`} />
                                     </div>
                                     <div className="flex flex-col items-end gap-2">
                                         <div className="flex gap-1.5">
@@ -310,7 +310,7 @@ export function RadioDashboard() {
                                     </div>
                                 </div>
 
-                                <h3 className="text-2xl font-black text-white mb-3 group-hover:text-[#00f5ff] transition-colors truncate tracking-tight">
+                                <h3 className="text-lg sm:text-2xl font-black text-white mb-2 sm:mb-3 group-hover:text-[#00f5ff] transition-colors truncate tracking-tight">
                                     {station.name}
                                 </h3>
 
@@ -345,11 +345,11 @@ export function RadioDashboard() {
                 </div>
 
                 {stations.length > 0 && (
-                    <div className="flex justify-center mt-12 mb-20">
+                    <div className="flex justify-center mt-8 sm:mt-12 mb-12 sm:mb-20">
                         <button
                             onClick={() => loadStations(searchQuery, activeTag, true)}
                             disabled={loadingMore}
-                            className="group relative px-12 py-5 bg-black border-2 border-[#00f5ff]/40 text-[#00f5ff] rounded-2xl flex items-center gap-4 hover:border-[#00f5ff] hover:bg-[#00f5ff]/5 transition-all font-mono uppercase tracking-[5px] font-black shadow-[0_0_30px_rgba(0,245,255,0.1)] hover:shadow-[0_0_50px_rgba(0,245,255,0.3)] disabled:opacity-50"
+                            className="group relative px-6 py-3 sm:px-12 sm:py-5 bg-black border-2 border-[#00f5ff]/40 text-[#00f5ff] rounded-2xl flex items-center gap-3 sm:gap-4 hover:border-[#00f5ff] hover:bg-[#00f5ff]/5 transition-all font-mono uppercase text-xs sm:text-sm tracking-[3px] sm:tracking-[5px] font-black shadow-[0_0_30px_rgba(0,245,255,0.1)] hover:shadow-[0_0_50px_rgba(0,245,255,0.3)] disabled:opacity-50"
                         >
                             <div className="absolute inset-0 bg-[#00f5ff]/5 opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
                             {loadingMore ? 'EXPANDING_RANGE...' : 'LOAD_MORE_FREQUENCIES'}
@@ -359,11 +359,11 @@ export function RadioDashboard() {
                 )}
             </main>
 
-            <footer className="fixed bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-[#050508] via-[#050508]/98 to-transparent z-20 pointer-events-none backdrop-blur-xl border-t border-white/5">
-                <div className="max-w-[2400px] mx-auto flex flex-col xl:flex-row justify-between items-stretch xl:items-end gap-8">
-                    <div className="flex flex-col sm:flex-row items-center sm:items-stretch gap-8 pointer-events-auto glass-panel-deep p-8 rounded-3xl border-2 border-white/10 w-full xl:w-auto shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+            <footer className="fixed bottom-0 left-0 right-0 p-3 sm:p-5 md:p-8 bg-gradient-to-t from-[#050508] via-[#050508]/98 to-transparent z-20 pointer-events-none backdrop-blur-xl border-t border-white/5">
+                <div className="max-w-[2400px] mx-auto flex flex-col xl:flex-row justify-between items-stretch xl:items-end gap-3 sm:gap-5 md:gap-8">
+                    <div className="flex flex-row items-center gap-3 sm:gap-5 md:gap-8 pointer-events-auto glass-panel-deep p-3 sm:p-5 md:p-8 rounded-2xl sm:rounded-3xl border-2 border-white/10 w-full xl:w-auto shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
                         <div className="relative group/play shrink-0">
-                            <div className={`w-28 h-28 rounded-2xl bg-black border-2 flex items-center justify-center transition-all duration-700 ${selectedStation ? 'border-[#00f5ff] shadow-[0_0_30px_rgba(0,245,255,0.4)]' : 'border-white/5'}`}>
+                            <div className={`w-14 h-14 sm:w-20 sm:h-20 md:w-28 md:h-28 rounded-xl sm:rounded-2xl bg-black border-2 flex items-center justify-center transition-all duration-700 ${selectedStation ? 'border-[#00f5ff] shadow-[0_0_30px_rgba(0,245,255,0.4)]' : 'border-white/5'}`}>
                                 {selectedStation ? (
                                     <motion.div
                                         animate={isPlaying ? {
@@ -373,10 +373,10 @@ export function RadioDashboard() {
                                         } : {}}
                                         transition={{ repeat: Infinity, duration: 8, ease: "linear" }}
                                     >
-                                        <Zap className={isPlaying ? "text-[#00f5ff]" : "text-[#00f5ff]/20"} size={48} />
+                                        <Zap className={`${isPlaying ? "text-[#00f5ff]" : "text-[#00f5ff]/20"}`} size={24} />
                                     </motion.div>
                                 ) : (
-                                    <Wind className="text-white/5" size={48} />
+                                    <Wind className="text-white/5" size={24} />
                                 )}
                             </div>
 
@@ -385,44 +385,44 @@ export function RadioDashboard() {
                                     onClick={togglePlay}
                                     className="absolute inset-0 flex items-center justify-center bg-[#00f5ff]/10 opacity-0 hover:opacity-100 transition-opacity rounded-2xl backdrop-blur-sm"
                                 >
-                                    {isPlaying ? <Pause size={48} fill="#00f5ff" className="text-[#00f5ff]" /> : <Play size={48} fill="#00f5ff" className="text-[#00f5ff]" />}
+                                    {isPlaying ? <Pause size={24} fill="#00f5ff" className="text-[#00f5ff] sm:!w-12 sm:!h-12" /> : <Play size={24} fill="#00f5ff" className="text-[#00f5ff] sm:!w-12 sm:!h-12" />}
                                 </button>
                             )}
                         </div>
 
-                        <div className="flex-1 min-w-0 flex flex-col justify-center text-center sm:text-left">
-                            <div className="flex items-center justify-center sm:justify-start gap-4 mb-3">
-                                <div className="flex items-center gap-2 bg-[#00f5ff]/10 px-3 py-1 rounded-md border border-[#00f5ff]/20">
+                        <div className="flex-1 min-w-0 flex flex-col justify-center text-left">
+                            <div className="flex items-center justify-start gap-2 sm:gap-4 mb-1.5 sm:mb-3">
+                                <div className="flex items-center gap-1.5 sm:gap-2 bg-[#00f5ff]/10 px-2 py-0.5 sm:px-3 sm:py-1 rounded-md border border-[#00f5ff]/20">
                                     <div className={`w-2 h-2 rounded-full ${isPlaying ? 'bg-[#00ffbc] animate-pulse' : 'bg-white/10'}`} />
-                                    <p className="text-[11px] font-mono text-[#00f5ff] uppercase tracking-[4px] font-black">
+                                    <p className="text-[9px] sm:text-[11px] font-mono text-[#00f5ff] uppercase tracking-[2px] sm:tracking-[4px] font-black">
                                         {selectedStation ? (isPlaying ? 'LIVE_STREAMING' : 'READY_STANDBY') : 'NO_SIGNAL'}
                                     </p>
                                 </div>
                             </div>
-                            <h2 className="truncate text-3xl font-black text-white leading-none uppercase tracking-tight mb-3 italic">
+                            <h2 className="truncate text-base sm:text-xl md:text-3xl font-black text-white leading-none uppercase tracking-tight mb-1.5 sm:mb-3 italic">
                                 {selectedStation?.name || '--- SCANNING ---'}
                             </h2>
-                            <div className="flex items-center justify-center sm:justify-start gap-4">
-                                <span className="text-[12px] font-mono text-white/40 uppercase tracking-[3px] font-bold">
+                            <div className="flex items-center justify-start gap-2 sm:gap-4">
+                                <span className="text-[9px] sm:text-[12px] font-mono text-white/40 uppercase tracking-[1px] sm:tracking-[3px] font-bold">
                                     {selectedStation ? `BR: ${selectedStation.bitrate}KBPS // V: ${Math.round(volume * 100)}%` : 'SYSTEM_IDLE'}
                                 </span>
                             </div>
                         </div>
                     </div>
 
-                    <div className="flex-1 max-w-[1400px] w-full pointer-events-auto glass-panel-deep p-8 rounded-3xl border-2 border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
-                        <div className="flex justify-between items-center mb-6">
+                    <div className="flex-1 max-w-[1400px] w-full pointer-events-auto glass-panel-deep p-3 sm:p-5 md:p-8 rounded-2xl sm:rounded-3xl border-2 border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] hidden sm:block">
+                        <div className="flex justify-between items-center mb-3 sm:mb-6">
                             <div className="flex items-center gap-3">
                                 <div className="w-2 h-2 bg-[#00f5ff] rounded-full animate-pulse shadow-[0_0_10px_#00f5ff]" />
-                                <span className="text-[12px] font-mono text-[#00f5ff] uppercase tracking-[5px] font-black">Spectral_Field_Analyzer.V2</span>
+                                <span className="text-[10px] sm:text-[12px] font-mono text-[#00f5ff] uppercase tracking-[2px] sm:tracking-[5px] font-black">Spectral_Field_Analyzer.V2</span>
                             </div>
-                            <div className="flex items-center gap-4 bg-black/40 px-6 py-2 rounded-xl border border-white/10">
+                            <div className="flex items-center gap-2 sm:gap-4 bg-black/40 px-3 py-1.5 sm:px-6 sm:py-2 rounded-xl border border-white/10">
                                 <Volume2 size={16} className="text-[#00f5ff]" />
                                 <input
                                     type="range" min="0" max="1" step="0.01"
                                     value={volume}
                                     onChange={(e) => setVolume(parseFloat(e.target.value))}
-                                    className="w-32 sm:w-48 h-1.5 bg-white/10 rounded-full appearance-none cursor-pointer accent-[#00f5ff] transition-all hover:bg-white/20"
+                                    className="w-20 sm:w-32 md:w-48 h-1.5 bg-white/10 rounded-full appearance-none cursor-pointer accent-[#00f5ff] transition-all hover:bg-white/20"
                                 />
                             </div>
                         </div>
